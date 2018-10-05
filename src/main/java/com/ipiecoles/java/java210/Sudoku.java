@@ -1,18 +1,57 @@
 package com.ipiecoles.java.java210;
 
+import java.util.Scanner;
+
 public class Sudoku {
+
+	public static final String FIN_SAISIE = "FIN" ;
+	public boolean resolu = false ;
+	public short [][] sudokuAResoudre ;
+	public short [][] getSudokuAResoudre () {
+		return sudokuAResoudre; }
+	public void setSudokuAResoudre (short [][] tab) {
+	sudokuAResoudre = tab; }
 
 	/**
 	 * Constructeur par défaut
 	 */
 	public Sudoku() {
+	sudokuAResoudre = new short [9][9]; // setSudoxuAResoudre ( new short [9][9])
 	}
 
+
 	public static boolean ligneSaisieEstCoherente(String ligneSaisie) {
-		return true;
+		if (ligneSaisie == null) {
+			System.out.println("Les coordonnées du chiffre et/ou sa valeur ne peuvent pas être nulles, vides ou remplies avec des espaces");
+			return false;
+		}
+		else if (ligneSaisie.length() == 0) {             //ligneSaisie.equals("")
+			System.out.println("Les coordonnées du chiffre et/ou sa valeur ne peuvent pas être nulles, vides ou remplies avec des espaces");
+			return false;
+		}
+		else if (ligneSaisie.trim().length() == 0) {
+			System.out.println("Les coordonnées du chiffre et/ou sa valeur ne peuvent pas être nulles, vides ou remplies avec des espaces");
+			return false;
+		}
+		else if (ligneSaisie.length() != 3) {
+			System.out.println("Les coordonnées du chiffre et/ou sa valeur doit faire 3 caractères");
+			return false;
+		}
+		else if (!ligneSaisie.matches("[0-8][0-8][1-9]")) {
+			System.out.println("L'abscisse et l'ordonnée doivent être compris entre 0 et 8, la valeur entre 1 et 9");
+			return false;
+		}
+			return true;
 	}
-	
-	/**
+		/**
+		 * if (ligneSaisie == null.ligneSaisie.trim().length() == 0){
+		 * System.out.println("Les coordonnées du chiffre et/ou sa valeur ne peuvent pas être nulles, vides ou remplies avec des espaces");
+		 * return false;}
+		 * else {
+		 * return true;}
+		 */
+
+		/**
 	 * Cette méthode invite l'utilisateur à saisir un ensemble de coordonnées pour initialiser un sudoku à résoudre.
 	 * Les coordonnées prennent la forme XYZ avec X correspondant à l'abscisse, Y l'ordonnée et Z la valeur. Seules les
 	 * chiffres présents sont à saisir et l'utilisateur doit appuyer sur entrée après chaque saisie. 
@@ -25,12 +64,45 @@ public class Sudoku {
 	 *
 	 * @return Un tableau comportant les coordonnées des chiffres présents dans le sudoku à résoudre
 	 */
-	public static String[] demandeCoordonneesSudoku() {
-		return null;
+
+	/** Dans la méthode demandeCoordonneesSudoku, lire dans la console les coordonnées de chaque chiffre que doit
+	 *contenir le sudoku avant résolution tant que l'utilisateur de renseigne pas la valeur FIN indiquant la fin de sa saisie.
+	 * Contrôler la validité de la ligne en appelant la méthode ligneSaisieEstCoherente précédemment développée.
+	 * Mettre les coordonnées saisies dans un tableau de String est le retourner en fin de méthode.
+	 *
+	 * creer une variable pouvant aller jusqu'à 81. Cette boucle peut s'arrêtre si FIN est entrée comme valeur
+	 * a chaque fois que la personne tape entréé lancer la procédure "ligneSaisieEstCorrect"
+	 *
+	 */
+
+
+
+		public static String[] demandeCoordonneesSudoku(){
+			String [] tableauCoordonnes = new String[81];
+
+			Scanner coordonnees = new Scanner(System.in);
+
+			String ligneSaisie = coordonnees.nextLine();
+
+			int i = 0;
+
+			while (!ligneSaisie.equals("FIN") && i < 81) {
+				if (ligneSaisieEstCoherente(ligneSaisie))
+				{
+					tableauCoordonnes[i] = ligneSaisie;
+					i++;
+				}
+				else
+				{
+					System.out.println("Les coordonnées du chiffre et/ou sa valeur ne sont pas cohérentes. Merci de réessayer");
+				}
+				ligneSaisie = coordonnees.nextLine();
+			}
+			return tableauCoordonnes;
 	}
 	
 	/**
-	 * La méthode prend un tableau de coordonnées de chiffre soud la forme XYZ avec X correspondant 
+	 * La méthode prend un tableau de coordonnées de chiffre sous la forme XYZ avec X correspondant
 	 * à l'abscisse, Y l'ordonnée et Z la valeur et remplit le tableau sudokuAResoudre avec les bonnes valeurs
 	 * au bon endroit. Ex 012, première ligne deuxième colonne, on met la valeur 2. Lorsqu'une valeur nulle est 
 	 * rencontrée dans le tableau, on arrête le traitement
