@@ -197,33 +197,24 @@ public class SudokuTest {
 
 		ByteArrayInputStream inContent;
 		inContent = new ByteArrayInputStream("015\n024\nFIN".getBytes());
-	    System.setIn(inContent);
-	    
-	    String[] coordonnees = Sudoku.demandeCoordonneesSudoku();
-	    Assertions.assertThat(coordonnees).isNotNull();
-	    Assertions.assertThat(coordonnees).isNotEmpty();
-	    Assertions.assertThat(coordonnees.length >= 81).isTrue();
-	    Assertions.assertThat(coordonnees[0]).isEqualTo("015");
-	    Assertions.assertThat(coordonnees[1]).isEqualTo("024");
-	    Assertions.assertThat(coordonnees[2]).isNull();
-	    
+		System.setIn(inContent);
+
+		String[] coordonnees = Sudoku.demandeCoordonneesSudoku();
+		Assertions.assertThat(coordonnees).isNotNull();
+		Assertions.assertThat(coordonnees).isNotEmpty();
+		Assertions.assertThat(coordonnees.length >= 81).isTrue();
+		Assertions.assertThat(coordonnees[0]).isEqualTo("015");
+		Assertions.assertThat(coordonnees[1]).isEqualTo("024");
+		Assertions.assertThat(coordonnees[2]).isNull();
+
 		inContent = new ByteArrayInputStream("FIN".getBytes());
-	    System.setIn(inContent);
-	    
-	    coordonnees = Sudoku.demandeCoordonneesSudoku();
-	    Assertions.assertThat(coordonnees).isNotNull();
-	    Assertions.assertThat(coordonnees).isNotEmpty();
-	    Assertions.assertThat(coordonnees.length >= 81).isTrue();
-	    Assertions.assertThat(coordonnees[0]).isNull();
+		System.setIn(inContent);
 
-	    inContent = new ByteArrayInputStream("".getBytes());
-	    System.setIn(inContent);
-
-	    coordonnees = Sudoku.demandeCoordonneesSudoku();
-	    Assertions.assertThat(coordonnees).isNotNull();
-	    Assertions.assertThat(coordonnees).isNotEmpty();
-	    Assertions.assertThat(coordonnees.length >= 81).isTrue();
-	    Assertions.assertThat(coordonnees[0]).isNull();
+		coordonnees = Sudoku.demandeCoordonneesSudoku();
+		Assertions.assertThat(coordonnees).isNotNull();
+		Assertions.assertThat(coordonnees).isNotEmpty();
+		Assertions.assertThat(coordonnees.length >= 81).isTrue();
+		Assertions.assertThat(coordonnees[0]).isNull();
 	}
 
 	@Test
@@ -410,7 +401,7 @@ public class SudokuTest {
 	    System.setOut(new PrintStream(outContent));
 	    resultat = Sudoku.ligneSaisieEstCoherente(valeur);
 		Assertions.assertThat(resultat).as("La vérification de la valeur " + valeur + " devrait renvoyer : " + ok).isEqualTo(ok);
-		Assertions.assertThat(outContent.toString()).as("Le message affiché devrait être : " + message).isEqualTo(message);
+		Assertions.assertThat(outContent.toString()).as("Le message affiché devrait être : " + message).isEqualToNormalizingNewlines(message);
 	}
 	
 	private void invokeSetter(Object obj, String variableName, Object variableValue){
